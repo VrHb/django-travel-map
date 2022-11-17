@@ -1,6 +1,27 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from places.models import Place
+
+from django.shortcuts import get_object_or_404
+
+
+def show_place(request, place_id):
+    place = get_object_or_404(Place, pk=place_id)
+    place_properties = {
+        "title": place.title,
+        "imgs": [image.upload.url for image in place.images.all()],
+        "descriptions_short": place.description_short,
+        "description_long": place.description_long,
+        "coordinates": {
+            "lat": place.lat,
+            "lng": place.lon
+        }
+    }
+    return JsonResponse(
+        place_properties,
+        safe=False,
+        json_dumps_params={"ensure_ascii": False, "indent": 4}
+    )
 
 
 def show_main(request):
