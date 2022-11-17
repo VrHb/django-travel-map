@@ -36,7 +36,7 @@ class Place(models.Model):
 class Image(models.Model):
     upload = models.ImageField(
         verbose_name="Загрузить",
-        upload_to="static/images/",
+        upload_to="images/",
         null=True,
         blank=True
     ) 
