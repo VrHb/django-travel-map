@@ -1,5 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
+from django.urls import reverse
+
 from places.models import Place
 
 from django.shortcuts import get_object_or_404
@@ -40,7 +42,7 @@ def show_main(request):
             "properties": {
                 "title": place.title,
                 "placeId": "moscow_legends",
-			    "detailsUrl": "static/moscow_legends.json"
+                "detailsUrl": reverse('places', args=[place.id])
             }
         })
     template = loader.get_template('index.html')
