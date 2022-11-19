@@ -29,13 +29,14 @@ class Place(models.Model):
         blank=True,
         null=True
     )
-    
+
     def __str__(self):
         return self.title
+    
 
 class Image(models.Model):
     upload = models.ImageField(
-        verbose_name="Загрузить",
+        verbose_name="Картинка",
         upload_to="images/",
         null=True,
         blank=True
@@ -48,7 +49,15 @@ class Image(models.Model):
         null=True,
         blank=True
     )
+    image_id = models.PositiveIntegerField(
+        default=0,
+        blank=True,
+        null=True
+    )
+    
+    class Meta:
+        ordering = ["image_id"]
 
     def __str__(self):
-        return f"{self.id} {self.place.title}"
+        return f"{self.image_id} {self.place.title}"
 
