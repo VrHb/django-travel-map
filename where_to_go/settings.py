@@ -77,7 +77,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-STATIC_ROOT = os.getenv('DJANGO_STATIC_ROOT_PATH')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static') 
 
 WSGI_APPLICATION = 'where_to_go.wsgi.application'
 
