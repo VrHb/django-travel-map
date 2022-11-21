@@ -7,19 +7,21 @@ from django.db import migrations
 def fectch_coordinates_from_json(apps, schema_editor):
     Place = apps.get_model("places", "Place")
     places = []
-    with open("static/moscow_legends.json", "rb") as json_file1, \
-        open("static/roofs24.json", "rb") as json_file2:
-        places.append(json.load(json_file1))
-        places.append(json.load(json_file2))
-    for place in places:
-        Place.objects.update_or_create(
-            title = place["title"],
-            description_short = place["description_short"],
-            description_long = place["description_long"],
-            lon = place["coordinates"]["lng"],
-            lat = place["coordinates"]["lat"]
-        )
-
+    try:
+        with open("static/moscow_legends.json", "rb") as json_file1, \
+            open("static/roofs24.json", "rb") as json_file2:
+            places.append(json.load(json_file1))
+            places.append(json.load(json_file2))
+        for place in places:
+            Place.objects.update_or_create(
+                title = place["title"],
+                description_short = place["description_short"],
+                description_long = place["description_long"],
+                lon = place["coordinates"]["lng"],
+                lat = place["coordinates"]["lat"]
+            )
+    except FileNotFoundError:
+        return None
 
 class Migration(migrations.Migration):
 

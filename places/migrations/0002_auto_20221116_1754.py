@@ -8,17 +8,19 @@ from django.db import migrations
 def fectch_places_from_json(apps, schema_editor):
     Place = apps.get_model("places", "Place")
     places = []
-    with open("static/moscow_legends.json", "rb") as json_file1, \
-        open("static/roofs24.json", "rb") as json_file2:
-        places.append(json.load(json_file1))
-        places.append(json.load(json_file2))
-    for place in places:
-        Place.objects.get_or_create(
-            title = place["title"],
-            description_short = place["description_short"],
-            description_long=place["description_long"],
-        )
-
+    try:
+        with open("static/moscow_legends.json", "rb") as json_file1, \
+            open("static/roofs24.json", "rb") as json_file2:
+            places.append(json.load(json_file1))
+            places.append(json.load(json_file2))
+        for place in places:
+            Place.objects.get_or_create(
+                title = place["title"],
+                description_short = place["description_short"],
+                description_long=place["description_long"],
+            )
+    except FileNotFoundError:
+        return None
 
 class Migration(migrations.Migration):
 
