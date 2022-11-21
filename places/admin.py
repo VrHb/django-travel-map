@@ -13,7 +13,6 @@ class ImageInline(SortableTabularInline, admin.TabularInline):
     fields = ["upload", "preview_image"]
 
     def preview_image(self, model):
-        "Превью",
         return format_html(
             f"<img src='{model.upload.url}' height='200px' />"
         )
