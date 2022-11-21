@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
+from environs import Env
+
+env = Env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,9 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY") 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DEBUG", False) 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [str(os.getenv("HOSTS")).lower()]
 
 
 # Application definition
@@ -74,7 +77,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-STATIC_ROOT = ''
+STATIC_ROOT = os.getenv("DJANGO_STATIC_ROOT_PATH")
 
 WSGI_APPLICATION = 'where_to_go.wsgi.application'
 
@@ -85,7 +88,9 @@ WSGI_APPLICATION = 'where_to_go.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': env.str(
+            'DATABASE_FILEPATH', os.path.join(BASE_DIR, 'db.sqlite3')
+        ),
     }
 }
 
@@ -122,6 +127,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+DEFAULT_FROM_EMAIL = os.getenv("ADMIN_EMAIL_FROM") 
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
@@ -135,3 +142,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = 'media/'
+
+SESSION_COOKIE_SECURE = True
