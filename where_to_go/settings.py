@@ -23,12 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY") 
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY') 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool("DEBUG", False) 
+DEBUG = env.bool('DEBUG', False) 
 
-ALLOWED_HOSTS = [str(os.getenv("HOSTS")).lower()]
+ALLOWED_HOSTS = env.list('HOSTS', []) 
 
 
 # Application definition
@@ -77,7 +77,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-STATIC_ROOT = os.getenv("DJANGO_STATIC_ROOT_PATH")
+STATIC_ROOT = os.getenv('DJANGO_STATIC_ROOT_PATH')
 
 WSGI_APPLICATION = 'where_to_go.wsgi.application'
 
@@ -127,9 +127,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-DEFAULT_FROM_EMAIL = os.getenv("ADMIN_EMAIL_FROM") 
-
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
@@ -144,3 +141,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = 'media/'
 
 SESSION_COOKIE_SECURE = True
+
