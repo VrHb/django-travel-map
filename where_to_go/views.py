@@ -37,7 +37,7 @@ def show_main(request):
             "type": "Feature",
             "geometry": {
                 "type": "Point",
-                "coordinates": [float(place.lon), float(place.lat)]
+                "coordinates": [place.lon, place.lat]
             },
             "properties": {
                 "title": place.title,

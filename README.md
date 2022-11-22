@@ -65,20 +65,14 @@ echo "DEBUG"=1 >> .env
 echo "DEBUG"=0 >> .env
 ```
 
-3. Путь к базе данных проекта:
 
-```
-echo "DATABASE_FILEPATH"="путь к бд" >> .env
-```
-
-4. Хосты, смотрим [доку](https://docs.djangoproject.com/en/3.1/ref/settings/#allowed-hosts):
-
+3. Хосты, смотрим [доку](https://docs.djangoproject.com/en/3.1/ref/settings/#allowed-hosts):
 
 ```
 echo "HOSTS"=<список хостов через запятую>" >> .env
 ```
 
-5. Путь к статике сайта: 
+4. Путь к статике сайта: 
 
 ```
 echo "DJANGO_STATIC_ROOT_PATH"=<путь к статике>" >> .env
