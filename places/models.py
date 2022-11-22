@@ -16,17 +16,13 @@ class Place(models.Model):
         blank=True,
         null=True
     )
-    lat = models.DecimalField(
-        "Широта",
-        max_digits=30,
-        decimal_places=20,
+    lon = models.FloatField(
+        "Долгота",
         blank=True,
         null=True
     )
-    lon = models.DecimalField(
-        "Долгота",
-        max_digits=30,
-        decimal_places=20,
+    lat = models.FloatField(
+        "Широта",
         blank=True,
         null=True
     )

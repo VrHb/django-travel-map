@@ -18,6 +18,8 @@ def fectch_places_from_json(apps, schema_editor):
                 title = place["title"],
                 description_short = place["description_short"],
                 description_long=place["description_long"],
+                lon = place["coordinates"]["lng"],
+                lat = place["coordinates"]["lat"]
             )
     except FileNotFoundError:
         return None
