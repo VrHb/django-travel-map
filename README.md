@@ -82,8 +82,16 @@ echo "DJANGO_STATIC_ROOT_PATH"=<путь к статике>" >> .env
 
 ## Запуск
 
+1. Запустить на локальном сервере:
+
 ```
 python manage.py runserver
 ```
 
+2. Загрузить JSON места с помощью команды:
 
+```
+python manage.py load_place
+```
+
+Образец JSON-файла [тут](https://github.com/VrHb/django-travel-map/blob/main/static/roofs24.json)

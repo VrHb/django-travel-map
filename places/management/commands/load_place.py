@@ -3,7 +3,7 @@ from django.core.files.base import ContentFile
 
 import requests
 
-from places.models import Place, Image
+from places.models import Place
 
 
 class Command(BaseCommand):
@@ -43,6 +43,4 @@ class Command(BaseCommand):
             type=str,
             dest="url"
         )
-
-        
 
