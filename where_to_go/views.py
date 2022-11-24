@@ -21,8 +21,7 @@ def show_place(request, place_id):
     }
     return JsonResponse(
         place_properties,
-        safe=False,
-        json_dumps_params={"ensure_ascii": False, "indent": 4}
+        json_dumps_params={"ensure_ascii": False}
     )
 
 
