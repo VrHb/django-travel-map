@@ -12,7 +12,7 @@ def show_place(request, place_id):
     place_properties = {
         "title": place.title,
         "imgs": [img.image.url for img in place.images.all()],
-        "descriptions_short": place.description_short,
+        "description_short": place.description_short,
         "description_long": place.description_long,
         "coordinates": {
             "lat": place.lat,

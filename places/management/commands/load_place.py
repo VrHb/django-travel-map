@@ -31,7 +31,7 @@ class Command(BaseCommand):
                     place=new_place,
                     image_id=image_id
                 )
-                image[0].upload.save(
+                image[0].image.save(
                     f"image_{image_id}.jpg", 
                     image_file, 
                     save=True
