@@ -15,13 +15,9 @@ class Place(models.Model):
     )
     lon = models.FloatField(
         "Долгота",
-        blank=True,
-        null=True
     )
     lat = models.FloatField(
         "Широта",
-        blank=True,
-        null=True
     )
 
     def __str__(self):
@@ -32,21 +28,15 @@ class Image(models.Model):
     upload = models.ImageField(
         verbose_name="Картинка",
         upload_to="images/",
-        null=True,
-        blank=True
     ) 
     place = models.ForeignKey(
         Place,
         verbose_name="Место",
         related_name="images",
         on_delete=models.CASCADE,
-        null=True,
-        blank=True
     )
     image_id = models.PositiveIntegerField(
         default=0,
-        blank=True,
-        null=True
     )
     
     class Meta:
