@@ -4,7 +4,7 @@ from django.urls import reverse
 
 from places.models import Place
 
-from django.shortcuts import get_object_or_404
+from django.shortcuts import render, get_object_or_404
 
 
 def show_place(request, place_id):
@@ -44,7 +44,4 @@ def show_main(request):
                 "detailsUrl": reverse("places", args=[place.id])
             }
         })
-    template = loader.get_template("index.html")
-    context = {"json_data": geojson_points} 
-    rendered_page = template.render(context, request)
-    return HttpResponse(rendered_page)
+    return render(request, "index.html", {"json_data": geojson_points}) 
