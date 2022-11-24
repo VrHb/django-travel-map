@@ -25,7 +25,7 @@ class Place(models.Model):
     
 
 class Image(models.Model):
-    upload = models.ImageField(
+    image = models.ImageField(
         verbose_name="Картинка",
         upload_to="images/",
     ) 
