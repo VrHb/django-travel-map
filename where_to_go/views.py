@@ -42,10 +42,10 @@ def show_main(request):
             "properties": {
                 "title": place.title,
                 "placeId": "moscow_legends",
-                "detailsUrl": reverse('places', args=[place.id])
+                "detailsUrl": reverse("places", args=[place.id])
             }
         })
-    template = loader.get_template('index.html')
+    template = loader.get_template("index.html")
     context = {"json_data": geojson_points} 
     rendered_page = template.render(context, request)
     return HttpResponse(rendered_page)
