@@ -1,5 +1,4 @@
-from django.http import HttpResponse, JsonResponse
-from django.template import loader
+from django.http import JsonResponse
 from django.urls import reverse
 
 from places.models import Place
@@ -44,4 +43,4 @@ def show_main(request):
                 "detailsUrl": reverse("places", args=[place.id])
             }
         })
-    return render(request, "index.html", {"json_data": geojson_points}) 
+    return render(request, "index.html", {"json_data": geojson_points})

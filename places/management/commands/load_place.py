@@ -8,7 +8,7 @@ from places.models import Place
 
 class Command(BaseCommand):
     help = "Add places on map"
-    
+
     def handle(self, *args, **options):
         if options["url"]:
             url = options["url"]
@@ -16,11 +16,11 @@ class Command(BaseCommand):
             response.raise_for_status()
             place = response.json()
             new_place = Place.objects.get_or_create(
-                title = place["title"],
-                description_short = place["description_short"],
+                title=place["title"],
+                description_short=place["description_short"],
                 description_long=place["description_long"],
-                lon = place["coordinates"]["lng"],
-                lat = place["coordinates"]["lat"]
+                lon=place["coordinates"]["lng"],
+                lat=place["coordinates"]["lat"]
             )
             image_links = place["imgs"]
             for image_id, image_link in enumerate(image_links, start=1):
@@ -32,8 +32,8 @@ class Command(BaseCommand):
                     image_id=image_id
                 )
                 image[0].image.save(
-                    f"image_{image_id}.jpg", 
-                    image_file, 
+                    f"image_{image_id}.jpg",
+                    image_file,
                     save=True
                 )
 
@@ -43,4 +43,3 @@ class Command(BaseCommand):
             type=str,
             dest="url"
         )
-

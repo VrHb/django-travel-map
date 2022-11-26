@@ -2,7 +2,6 @@ from django.db import models
 from tinymce.models import HTMLField
 
 
-
 class Place(models.Model):
     title = models.CharField("Название места", max_length=200)
     description_short = models.TextField(
@@ -22,13 +21,13 @@ class Place(models.Model):
 
     def __str__(self):
         return self.title
-    
+
 
 class Image(models.Model):
     image = models.ImageField(
         verbose_name="Картинка",
         upload_to="images/",
-    ) 
+    )
     place = models.ForeignKey(
         Place,
         verbose_name="Место",
@@ -38,10 +37,9 @@ class Image(models.Model):
     image_id = models.PositiveIntegerField(
         default=0,
     )
-    
+
     class Meta:
         ordering = ["image_id"]
 
     def __str__(self):
         return f"{self.image_id} {self.place.title}"
-
