@@ -32,12 +32,14 @@ def get_place_description_from_url(url):
 
 
 def fill_db_place_description(place):
-    new_place = Place.objects.get_or_create(
+    new_place, created = Place.objects.get_or_create(
         title=place["title"],
-        description_short=place["description_short"],
-        description_long=place["description_long"],
-        lon=place["coordinates"]["lng"],
-        lat=place["coordinates"]["lat"]
+        defaults={
+            "description_short": place["description_short"],
+            "description_long": place["description_long"],
+            "lon": place["coordinates"]["lng"],
+            "lat": place["coordinates"]["lat"],
+        }
     )
     return new_place
 
@@ -48,11 +50,11 @@ def fill_db_place_images(place_description, new_place):
         response = requests.get(image_link)
         response.raise_for_status()
         image_file = ContentFile(response.content)
-        image = new_place[0].images.get_or_create(
+        image, created = new_place.images.get_or_create(
             place=new_place,
             image_id=image_id
         )
-        image[0].image.save(
+        image.image.save(
             f"image_{image_id}.jpg",
             image_file,
             save=True
