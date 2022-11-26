@@ -13,8 +13,8 @@ class Command(BaseCommand):
         if options["url"]:
             url = options["url"]
             place_description = get_place_description_from_url(url)
-            new_place = fill_db_place_description(place_description)
-            fill_db_place_images(place_description, new_place)
+            place_object = fill_db_place_description(place_description)
+            fill_db_place_images(place_description, place_object)
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -32,7 +32,7 @@ def get_place_description_from_url(url):
 
 
 def fill_db_place_description(place):
-    new_place, created = Place.objects.get_or_create(
+    place_object, created = Place.objects.get_or_create(
         title=place["title"],
         defaults={
             "description_short": place["description_short"],
@@ -41,17 +41,17 @@ def fill_db_place_description(place):
             "lat": place["coordinates"]["lat"],
         }
     )
-    return new_place
+    return place_object
 
 
-def fill_db_place_images(place_description, new_place):
+def fill_db_place_images(place_description, place_object):
     image_links = place_description["imgs"]
     for image_id, image_link in enumerate(image_links, start=1):
         response = requests.get(image_link)
         response.raise_for_status()
         image_file = ContentFile(response.content)
-        image, created = new_place.images.get_or_create(
-            place=new_place,
+        image, created = place_object.images.get_or_create(
+            place=place_object,
             image_id=image_id
         )
         image.image.save(
