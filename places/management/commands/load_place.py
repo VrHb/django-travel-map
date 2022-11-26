@@ -49,9 +49,17 @@ def fill_db_place_images(place_description, place_object):
     for image_id, image_link in enumerate(image_links, start=1):
         response = requests.get(image_link)
         response.raise_for_status()
-        image_file = ContentFile(response.content, f"image_{image_id}.jpg")
-        image, created = place_object.images.get_or_create(
-            image=image_file,
-            place=place_object,
-            image_id=image_id
+        image_file = ContentFile(
+            response.content,
+            f"{place_object.title}_{image_id}.jpg"
         )
+        image, created = place_object.images.get_or_create(
+            image_id=image_id,
+            defaults={
+                "place": place_object,
+                "image": image_file
+            }
+        )
+        if created is False:
+            continue
+
