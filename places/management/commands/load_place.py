@@ -21,9 +21,9 @@ class Command(BaseCommand):
             response = requests.get(url)
             response.raise_for_status()
             place_description = response.json()
-            place = fill_db_place_description(place_description)
-            if place.created is True:
-                fill_db_place_images(place_description, place.place)
+            place_from_db = fill_db_place_description(place_description)
+            if place_from_db.created is True:
+                fill_db_place_images(place_description, place_from_db.place)
 
     def add_arguments(self, parser):
         parser.add_argument(
