@@ -15,8 +15,8 @@ class Command(BaseCommand):
             response = requests.get(url)
             response.raise_for_status()
             place_description = response.json()
-            place_object = fill_db_place_description(place_description)
-            fill_db_place_images(place_description, place_object)
+            place = fill_db_place_description(place_description)
+            fill_db_place_images(place_description, place)
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -26,32 +26,32 @@ class Command(BaseCommand):
         )
 
 
-def fill_db_place_description(place):
-    place_object, created = Place.objects.get_or_create(
-        title=place["title"],
+def fill_db_place_description(payload):
+    place, created = Place.objects.get_or_create(
+        title=payload["title"],
         defaults={
-            "description_short": place.get("description_short", ""),
-            "description_long": place.get("description_long", ""),
-            "lon": place.get("coordinates", "").get("lng", ""),
-            "lat": place.get("coordinates", "").get("lat", ""),
+            "description_short": payload.get("description_short", ""),
+            "description_long": payload.get("description_long", ""),
+            "lon": payload.get("coordinates", "").get("lng", ""),
+            "lat": payload.get("coordinates", "").get("lat", ""),
         }
     )
-    return place_object
+    return place
 
 
-def fill_db_place_images(place_description, place_object):
+def fill_db_place_images(place_description, place):
     image_links = place_description["imgs"]
     for image_id, image_link in enumerate(image_links, start=1):
         response = requests.get(image_link)
         response.raise_for_status()
         image_file = ContentFile(
             response.content,
-            f"{place_object.title}_{image_id}.jpg"
+            f"{place.title}_{image_id}.jpg"
         )
-        image, created = place_object.images.get_or_create(
+        image, created = place.images.get_or_create(
             image_id=image_id,
             defaults={
-                "place": place_object,
+                "place": place,
                 "image": image_file
             }
         )
