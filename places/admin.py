@@ -14,7 +14,7 @@ class ImageInline(SortableTabularInline, admin.TabularInline):
     def preview_image(self, model):
         return format_html(
             "<img src={} height={}/>",
-            f"{model.image.url}",
+            model.image.url,
             "200px"
         )
 
