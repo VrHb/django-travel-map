@@ -1,3 +1,5 @@
+from typing import NamedTuple
+
 from django.core.management.base import BaseCommand
 from django.core.files.base import ContentFile
 
@@ -5,6 +7,10 @@ import requests
 
 from places.models import Place
 
+
+class AddedPlace(NamedTuple):
+    place: Place
+    created: bool
 
 class Command(BaseCommand):
     help = "Add places on map"
@@ -16,7 +22,8 @@ class Command(BaseCommand):
             response.raise_for_status()
             place_description = response.json()
             place = fill_db_place_description(place_description)
-            fill_db_place_images(place_description, place)
+            if place.created is True:
+                fill_db_place_images(place_description, place.place)
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -36,7 +43,7 @@ def fill_db_place_description(payload):
             "lat": payload.get("coordinates", "").get("lat", ""),
         }
     )
-    return place
+    return AddedPlace(place=place, created=created) 
 
 
 def fill_db_place_images(place_description, place):
