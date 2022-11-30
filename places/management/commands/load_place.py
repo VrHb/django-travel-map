@@ -12,6 +12,7 @@ class AddedPlace(NamedTuple):
     place: Place
     created: bool
 
+
 class Command(BaseCommand):
     help = "Add places on map"
 
@@ -43,7 +44,7 @@ def fill_db_place_description(payload):
             "lat": payload.get("coordinates", "").get("lat", ""),
         }
     )
-    return AddedPlace(place=place, created=created) 
+    return AddedPlace(place=place, created=created)
 
 
 def fill_db_place_images(place_description, place):
@@ -64,4 +65,3 @@ def fill_db_place_images(place_description, place):
         )
         if created is False:
             continue
-
