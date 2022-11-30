@@ -12,8 +12,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         if options["url"]:
             url = options["url"]
-            place_description, \
-            place_from_db, created = fill_db_place_description(url)
+            place_description, place_from_db, created = fill_db_place_description(url)
             if created:
                 fill_db_place_images(place_description, place_from_db)
 
@@ -38,7 +37,7 @@ def fill_db_place_description(url):
             "lat": place_description["coordinates"]["lat"],
         }
     )
-    return place_description, place, created 
+    return place_description, place, created
 
 
 def fill_db_place_images(place_description, place):
@@ -50,7 +49,7 @@ def fill_db_place_images(place_description, place):
             response.content,
             f"{place.title}_{image_id}.jpg"
         )
-        image = place.images.create(
+        place.images.create(
             image_id=image_id,
             place=place,
             image=image_file
