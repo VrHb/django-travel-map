@@ -12,12 +12,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         if options["url"]:
             url = options["url"]
-            response = requests.get(url)
-            response.raise_for_status()
-            place_description = response.json()
-            place_from_db, created = fill_db_place_description(
-                place_description
-            )
+            place_description, place_from_db, created = fill_db_place_description(url)
             if created:
                 fill_db_place_images(place_description, place_from_db)
 
@@ -29,17 +24,20 @@ class Command(BaseCommand):
         )
 
 
-def fill_db_place_description(payload):
+def fill_db_place_description(url):
+    response = requests.get(url)
+    response.raise_for_status()
+    place_description = response.json()
     place, created = Place.objects.get_or_create(
-        title=payload["title"],
+        title=place_description["title"],
         defaults={
-            "description_short": payload.get("description_short", ""),
-            "description_long": payload.get("description_long", ""),
-            "lon": payload["coordinates"]["lng"],
-            "lat": payload["coordinates"]["lat"],
+            "description_short": place_description.get("description_short", ""),
+            "description_long": place_description.get("description_long", ""),
+            "lon": place_description["coordinates"]["lng"],
+            "lat": place_description["coordinates"]["lat"],
         }
     )
-    return place, created 
+    return place_description, place, created 
 
 
 def fill_db_place_images(place_description, place):
