@@ -1,16 +1,9 @@
-from typing import NamedTuple
-
 from django.core.management.base import BaseCommand
 from django.core.files.base import ContentFile
 
 import requests
 
 from places.models import Place
-
-
-class AddedPlace(NamedTuple):
-    place: Place
-    created: bool
 
 
 class Command(BaseCommand):
@@ -22,9 +15,11 @@ class Command(BaseCommand):
             response = requests.get(url)
             response.raise_for_status()
             place_description = response.json()
-            place_from_db = fill_db_place_description(place_description)
-            if place_from_db.created is True:
-                fill_db_place_images(place_description, place_from_db.place)
+            place_from_db, created = fill_db_place_description(
+                place_description
+            )
+            if created:
+                fill_db_place_images(place_description, place_from_db)
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -44,7 +39,7 @@ def fill_db_place_description(payload):
             "lat": payload["coordinates"]["lat"],
         }
     )
-    return AddedPlace(place=place, created=created)
+    return place, created 
 
 
 def fill_db_place_images(place_description, place):
