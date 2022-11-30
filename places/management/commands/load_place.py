@@ -40,15 +40,15 @@ def fill_db_place_description(payload):
         defaults={
             "description_short": payload.get("description_short", ""),
             "description_long": payload.get("description_long", ""),
-            "lon": payload.get("coordinates", "").get("lng", ""),
-            "lat": payload.get("coordinates", "").get("lat", ""),
+            "lon": payload["coordinates"]["lng"],
+            "lat": payload["coordinates"]["lat"],
         }
     )
     return AddedPlace(place=place, created=created)
 
 
 def fill_db_place_images(place_description, place):
-    image_links = place_description["imgs"]
+    image_links = place_description.get("imgs", [])
     for image_id, image_link in enumerate(image_links, start=1):
         response = requests.get(image_link)
         response.raise_for_status()
